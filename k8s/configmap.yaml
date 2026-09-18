@@ -8,3 +8,6 @@ data:
   DB_HOST: mysql
   DB_PORT: "3306"
   DB_NAME: vehicle_ota
+  MONGO_HOST: mongodb
+  MONGO_PORT: "27017"
+  MONGO_DATABASE: vehicle_ota

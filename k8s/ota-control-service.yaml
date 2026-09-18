@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ota-control-service
-          image: kkr010128/ota-control-service:stage1-v1
+          image: kkr010128/ota-control-service:stage2-cqrs-v1
           ports:
             - name: http
               containerPort: 8080
@@ -45,6 +45,31 @@ spec:
                 secretKeyRef:
                   name: mysql-credentials
                   key: MYSQL_PASSWORD
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: ota-database-config
+                  key: MONGO_HOST
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ota-database-config
+                  key: MONGO_PORT
+            - name: MONGO_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: ota-database-config
+                  key: MONGO_DATABASE
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-credentials
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-credentials
+                  key: MONGO_INITDB_ROOT_PASSWORD
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness

@@ -1,7 +1,8 @@
 package me.kdh.vehiclelab.otacontrolservice.api;
 
 import jakarta.validation.Valid;
-import me.kdh.vehiclelab.otacontrolservice.application.OtaUpdateService;
+import me.kdh.vehiclelab.otacontrolservice.application.command.OtaUpdateCommandService;
+import me.kdh.vehiclelab.otacontrolservice.application.query.OtaUpdateQueryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,20 +17,22 @@ import java.util.List;
 @RequestMapping("/api/v1/ota-updates")
 public class OtaUpdateController {
 
-    private final OtaUpdateService service;
+    private final OtaUpdateCommandService commandService;
+    private final OtaUpdateQueryService queryService;
 
-    public OtaUpdateController(OtaUpdateService service) {
-        this.service = service;
+    public OtaUpdateController(OtaUpdateCommandService commandService, OtaUpdateQueryService queryService) {
+        this.commandService = commandService;
+        this.queryService = queryService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OtaUpdateResponse create(@Valid @RequestBody CreateOtaUpdateRequest request) {
-        return service.create(request);
+        return commandService.create(request);
     }
 
     @GetMapping
     public List<OtaUpdateResponse> findAll() {
-        return service.findAll();
+        return queryService.findAll();
     }
 }

@@ -31,21 +31,13 @@ Kubernetes는 애플리케이션 기능을 구현하기 위해 사용하는 것�
 Client
   → NGINX Ingress
   → ota-control-service
-  → MySQL
-  → NFS PersistentVolume
+      ├─ Command API → MySQL → Projection Synchronizer → MongoDB
+      └─ Query API ─────────────────────────────────────→ MongoDB
 ```
 
-### 실습에서 확장할 구조
+MySQL은 원본 데이터를 저장하고, MongoDB는 조회에 필요한 형태로 가공한 Projection을 저장합니다. 현재는 애플리케이션 내부에서 Projection을 동기화하며, 비동기 처리와 이벤트 재처리가 필요해지면 Kafka를 도입합니다.
 
-```text
-Command API
-  → MySQL
-  → Projection Synchronizer
-  → NoSQL Projection
-  → Query API
-```
-
-MySQL은 원본 데이터를 저장하고, NoSQL은 조회에 필요한 형태로 가공한 Projection을 저장합니다. 초기에는 애플리케이션 내부에서 Projection을 동기화하고, 비동기 처리와 이벤트 재처리가 필요해지면 Kafka를 도입합니다.
+현재 동기화는 한 프로세스 안에서 순차적으로 실행하는 이중 쓰기 방식입니다. MySQL과 MongoDB가 하나의 트랜잭션으로 묶이지 않으므로 중간 실패 시 데이터가 일치하지 않을 수 있습니다. 이후 운영 검증에서 Projection 재생성과 정합성 복구 방식을 추가하고, 비동기 처리 필요성이 확인되면 이벤트 발행 구조를 검토합니다.
 
 ## 진행 상태
 
@@ -55,7 +47,7 @@ MySQL은 원본 데이터를 저장하고, NoSQL은 조회에 필요한 형태�
 | Container | 멀티스테이지 Docker 이미지와 Docker Compose 구성 | 완료 |
 | Kubernetes | Namespace, ConfigMap, Secret, Deployment, Service, Ingress | 완료 |
 | Storage | PV/PVC와 NFS 기반 MySQL 데이터 저장 | 완료 |
-| CQRS·NoSQL | Command와 Query 분리, 조회 Projection 구성 | 예정 |
+| CQRS·NoSQL | Command와 Query 분리, MongoDB 조회 Projection 구성 | 완료 |
 | 운영 검증 | 재시작, 데이터 동기화 실패, 장애 복구와 metric 확인 | 예정 |
 | OTA 도메인 확장 | 차량, 패키지, 캠페인, 상태 머신과 시뮬레이터 | 이후 진행 |
 | Kafka | 비동기 처리와 이벤트 재처리가 필요해질 때 도입 | 이후 검토 |
@@ -101,6 +93,7 @@ GET  /api/v1/ota-updates
 | Spring Boot | 4.1.1 |
 | Gradle Wrapper | 9.5.1 |
 | MySQL | 8.4 |
+| MongoDB | 8.0.4 |
 | Kubernetes | 1.30.14 |
 | ingress-nginx | 1.11.3 |
 | OTA 애플리케이션 이미지 | `kkr010128/ota-control-service:stage1-v1` |

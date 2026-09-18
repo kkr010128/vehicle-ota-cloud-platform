@@ -1,0 +1,74 @@
+name: Bug Report
+description: 재현 가능한 오류와 수정 조건을 기록합니다.
+title: "[Bug] "
+labels:
+  - "type: bug"
+assignees: []
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: 발생한 문제와 영향을 작성합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: 오류를 재현할 수 있는 순서를 작성합니다.
+      placeholder: |
+        1. 실행 환경을 준비합니다.
+        2. 요청 또는 명령을 실행합니다.
+        3. 오류를 확인합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: 정상적으로 기대한 결과를 작성합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: 실제 결과와 오류 메시지를 작성합니다. Secret과 개인정보는 제거합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: 브랜치, 커밋, 실행 환경과 관련 버전을 작성합니다.
+      placeholder: |
+        - Branch / Commit:
+        - Java / Spring Boot:
+        - Docker / Kubernetes:
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Tasks
+      description: 수정과 검증에 필요한 작업을 작성합니다.
+      placeholder: |
+        - [ ] 원인 확인
+        - [ ] 수정
+        - [ ] 회귀 테스트
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: 관련 로그, 이슈 또는 문서가 있으면 작성합니다.
+    validations:
+      required: false

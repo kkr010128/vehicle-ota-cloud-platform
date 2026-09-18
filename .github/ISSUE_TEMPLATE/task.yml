@@ -1,0 +1,44 @@
+name: Development Task
+description: 기능, 리팩터링, 테스트, 문서 또는 인프라 작업을 기록합니다.
+title: "[Task] "
+labels:
+  - "type: task"
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        현재 작업에서 완료할 범위만 작성하고 후속 단계는 별도 이슈로 분리합니다.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: 작업의 목적과 필요한 이유를 작성합니다.
+      placeholder: |
+        현재 문제와 이번 작업에서 달성할 결과를 작성합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Tasks
+      description: 파일 변경이나 검증 결과로 확인할 수 있는 작업을 작성합니다.
+      placeholder: |
+        - [ ] 구현 또는 설정 변경
+        - [ ] 테스트 또는 동작 검증
+        - [ ] 관련 문서 반영
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: 참고 문서, 관련 이슈, 로그 또는 설계 자료가 있으면 작성합니다.
+      placeholder: |
+        - 관련 문서:
+        - 관련 이슈:
+    validations:
+      required: false

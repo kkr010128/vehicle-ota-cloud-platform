@@ -96,7 +96,7 @@ GET  /api/v1/ota-updates
 | MongoDB | 8.0.4 |
 | Kubernetes | 1.30.14 |
 | ingress-nginx | 1.11.3 |
-| OTA 애플리케이션 이미지 | `kkr010128/ota-control-service:stage1-v1` |
+| OTA 애플리케이션 이미지 | `kkr010128/ota-control-service:stage2-cqrs-v1` |
 
 
 ## 프로젝트 범위

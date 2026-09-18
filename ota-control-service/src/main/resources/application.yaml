@@ -12,6 +12,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mongodb:
+    uri: "mongodb://${MONGO_USERNAME:ota_user}:${MONGO_PASSWORD:ota_pass}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/${MONGO_DATABASE:vehicle_ota}?authSource=admin"
 
 management:
   endpoints:
